@@ -38,22 +38,35 @@ const images = [
 
 let currentIndex = 0;
 
-const mainImage = document.getElementById("productImage"); // FIXED
+
+const mainImage = document.getElementById("productImage");
 const dots = document.querySelectorAll(".dot");
 const thumbs = document.querySelectorAll(".thumb");
-const prevBtn = document.querySelector(".left");  // FIXED
-const nextBtn = document.querySelector(".right"); // FIXED
+const prevBtn = document.querySelector(".left");
+const nextBtn = document.querySelector(".right");
+
+// Map thumbnail index (0-7) to image index (0-4)
+// Thumbs: [P1, P2, P3, P4, P5, P2, P3, P4]
+// Images: [P1, P2, P3, P4, P5]
+const thumbToImageMap = [0, 1, 2, 3, 4, 1, 2, 3];
+
 
 function updateCarousel(index) {
+  // Ensure index is valid
+  if (index < 0 || index >= images.length) return;
+
   mainImage.src = images[index];
 
+  // Update dots
   dots.forEach(dot => dot.classList.remove("active"));
+  if (dots[index]) {
+    dots[index].classList.add("active");
+  }
+
+  // Update thumbnails - Only highlight the primary thumbnail (0-4)
   thumbs.forEach(thumb => thumb.classList.remove("active"));
-
-  dots[index]?.classList.add("active");
-
-  if (index > 0) {
-    thumbs[index - 1].classList.add("active");
+  if (thumbs[index]) {
+    thumbs[index].classList.add("active");
   }
 }
 
@@ -80,8 +93,15 @@ dots.forEach((dot, index) => {
 /* THUMB CLICK */
 thumbs.forEach((thumb, index) => {
   thumb.addEventListener("click", () => {
-    currentIndex = index + 1;
-    updateCarousel(currentIndex);
+    // Use the map to always get the valid image index
+    // Fallback to index if outside map (though map covers all current thumbs)
+    const targetImageIndex = thumbToImageMap[index] !== undefined ? thumbToImageMap[index] : index;
+
+    // Safety check if target is valid
+    if (targetImageIndex < images.length) {
+      currentIndex = targetImageIndex;
+      updateCarousel(currentIndex);
+    }
   });
 });
 
