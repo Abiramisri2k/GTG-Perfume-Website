@@ -28,6 +28,7 @@ A premium, high-conversion Home page for GTG Perfume. This project demonstrates 
 ### Built with
 
 - **Semantic HTML5**: Used structured elements like `header`, `section`, `hgroup`, and `footer` for SEO and accessibility.
+- **Font Awesome**: Integrated for premium icons (navigation, stars, and UI elements).
 - **Modern CSS**:
   - CSS Custom Properties (Variables) for themed colors and consistent design tokens.
   - Flexbox and CSS Grid for complex layouts (like the Comparison Table and Subscription Cards).
